@@ -1,14 +1,28 @@
-const ItemList = ({ list, handleDelete }) => {
+const Item = ({ item, handleDelete, handleClick }) => {
+  let x = item.content;
+
+  return (
+    <li onClick={() => handleClick(item.id)}>
+      {item.isDone ? <del>{item.content} </del> : item.content}
+
+      <button onClick={handleDelete} value={item.id}>
+        Delete
+      </button>
+    </li>
+  );
+};
+
+const ItemList = ({ list, handleDelete, handleClick }) => {
   return (
     <div>
       <ul>
         {list.map((e) => (
-          <li key={e.id}>
-            {e.content}{" "}
-            <button onClick={handleDelete} value={e.id}>
-              Delete
-            </button>
-          </li>
+          <Item
+            key={e.id}
+            item={e}
+            handleDelete={handleDelete}
+            handleClick={handleClick}
+          />
         ))}
       </ul>
     </div>

@@ -6,7 +6,9 @@ import ItemList from "./Components/ItemList";
 // delete the Pet component
 
 const App = () => {
-  let [list, setList] = useState([{ id: 0, content: "Things to Do" }]);
+  let [list, setList] = useState([
+    { id: 0, content: "Things to Do", isDone: true },
+  ]);
   let [input, setInput] = useState("");
 
   const handleInputChange = (event) => {
@@ -14,7 +16,16 @@ const App = () => {
   };
 
   const handleDelete = (event) => {
+    event.stopPropagation();
     setList(list.filter((e) => e.id !== +event.target.value));
+  };
+
+  const handleClick = (id) => {
+    const itemToChange = list.find((e) => e.id === id);
+
+    const changedItem = { ...itemToChange, isDone: !itemToChange.isDone };
+    setList(list.map((e) => (e.id !== id ? e : changedItem)));
+    // console.log(itemToChange, changedItem);
   };
 
   const handleSubmit = (event) => {
@@ -23,12 +34,12 @@ const App = () => {
     let object = {
       id: Math.floor(Math.random() * 100000),
       content: input,
+      isDone: false,
     };
     setList([...list, object]);
-    console.log(list);
     setInput("");
   };
-  console.log(list);
+
   return (
     <div>
       <h1>Adopt Me!</h1>
@@ -47,7 +58,11 @@ const App = () => {
         </div>
       </form>
       <div>
-        <ItemList list={list} handleDelete={handleDelete} />
+        <ItemList
+          list={list}
+          handleDelete={handleDelete}
+          handleClick={handleClick}
+        />
       </div>
     </div>
   );
