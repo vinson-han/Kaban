@@ -25,7 +25,6 @@ const App = () => {
 
     const changedItem = { ...itemToChange, isDone: !itemToChange.isDone };
     setList(list.map((e) => (e.id !== id ? e : changedItem)));
-    // console.log(itemToChange, changedItem);
   };
 
   const handleSubmit = (event) => {
