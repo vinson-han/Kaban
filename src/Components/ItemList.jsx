@@ -12,18 +12,22 @@ const Item = ({ item, handleDelete, handleClick }) => {
   );
 };
 
-const ItemList = ({ list, handleDelete, handleClick }) => {
+const ItemList = ({ list, filter, handleDelete, handleClick }) => {
   return (
     <div>
       <ul>
-        {list.map((e) => (
-          <Item
-            key={e.id}
-            item={e}
-            handleDelete={handleDelete}
-            handleClick={handleClick}
-          />
-        ))}
+        {list.map((e) =>
+          e.content.toLowerCase().includes(filter) ? (
+            <Item
+              key={e.id}
+              item={e}
+              handleDelete={handleDelete}
+              handleClick={handleClick}
+            />
+          ) : (
+            ""
+          )
+        )}
       </ul>
     </div>
   );

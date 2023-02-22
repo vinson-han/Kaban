@@ -3,6 +3,7 @@
 import { createRoot } from "react-dom/client";
 import { useState } from "react";
 import ItemList from "./Components/ItemList";
+import SearchFilter from "./Components/SearchFilter";
 // delete the Pet component
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
     { id: 0, content: "Things to Do", isDone: true },
   ]);
   let [input, setInput] = useState("");
+  let [filter, setFilter] = useState("");
 
   const handleInputChange = (event) => {
     setInput(event.target.value);
@@ -27,6 +29,10 @@ const App = () => {
     setList(list.map((e) => (e.id !== id ? e : changedItem)));
   };
 
+  const handleFilter = (event) => {
+    setFilter(event.target.value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -41,7 +47,9 @@ const App = () => {
 
   return (
     <div>
+      <SearchFilter handleFilter={handleFilter} />
       <h1>Adopt Me!</h1>
+
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="task">
@@ -59,6 +67,7 @@ const App = () => {
       <div>
         <ItemList
           list={list}
+          filter={filter}
           handleDelete={handleDelete}
           handleClick={handleClick}
         />
