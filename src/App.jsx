@@ -8,14 +8,11 @@ import SearchFilter from "./Components/SearchFilter";
 
 const App = () => {
   let [list, setList] = useState([
-    { id: 0, content: "Things to Do", isDone: true },
+    { id: 0, content: "Things to Do", isDone: true, priority: "important" },
   ]);
-  let [input, setInput] = useState("");
-  let [filter, setFilter] = useState("");
 
-  const handleInputChange = (event) => {
-    setInput(event.target.value);
-  };
+  let [filter, setFilter] = useState("");
+  let [priority, setPriority] = useState("all");
 
   const handleDelete = (event) => {
     event.stopPropagation();
@@ -36,38 +33,85 @@ const App = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    const formData = new FormData(event.target);
+
+    console.log(formData.get("myRadio"));
+
     let object = {
       id: Math.floor(Math.random() * 100000),
-      content: input,
+      content: formData.get("task") ?? "",
       isDone: false,
+      priority: formData.get("myRadio"),
     };
     setList([...list, object]);
-    setInput("");
+    console.log(list);
+  };
+
+  const handlePriority = (e) => {
+    setPriority(e.target.value);
   };
 
   return (
     <div>
       <SearchFilter handleFilter={handleFilter} />
+      <label htmlFor="priorty">
+        important
+        <input
+          type="radio"
+          name="priority"
+          value="important"
+          onChange={handlePriority}
+        />
+      </label>
+      <label htmlFor="priorty">
+        unimportant
+        <input
+          type="radio"
+          name="priority"
+          value="unimportant"
+          onChange={handlePriority}
+        />
+      </label>
+      <label htmlFor="priorty">
+        all
+        <input
+          type="radio"
+          name="priority"
+          value="all"
+          onChange={handlePriority}
+        />
+      </label>
+
       <h1>Adopt Me!</h1>
 
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="task">
-            <input
-              id="task"
-              name="task"
-              value={input}
-              placeholder="Write your to do."
-              onChange={handleInputChange}
-            />
+            <input id="task" name="task" placeholder="Write your to do." />
           </label>
           <button> Submit</button>
+          <p>
+            <label form="radio">
+              important
+              <input
+                type="radio"
+                name="myRadio"
+                value="important"
+                defaultChecked={true}
+              />
+            </label>
+            <label form="radio">
+              unimportant
+              <input type="radio" name="myRadio" value="unimportant" />
+            </label>
+          </p>
         </div>
       </form>
       <div>
         <ItemList
           list={list}
           filter={filter}
+          priority={priority}
           handleDelete={handleDelete}
           handleClick={handleClick}
         />
