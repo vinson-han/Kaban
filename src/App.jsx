@@ -30,12 +30,20 @@ const App = () => {
     setFilter(event.target.value);
   };
 
+  const handleEdit = (object) => {
+    let contentToChange = list.find((e) => e.id === object.id);
+    let changedContent = {
+      ...contentToChange,
+      content: object.content,
+      priority: object.priority,
+    };
+    setList(list.map((e) => (e.id !== object.id ? e : changedContent)));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
-
-    console.log(formData.get("myRadio"));
 
     let object = {
       id: Math.floor(Math.random() * 100000),
@@ -44,7 +52,6 @@ const App = () => {
       priority: formData.get("myRadio"),
     };
     setList([...list, object]);
-    console.log(list);
   };
 
   const handlePriority = (e) => {
@@ -114,6 +121,7 @@ const App = () => {
           priority={priority}
           handleDelete={handleDelete}
           handleClick={handleClick}
+          handleEdit={handleEdit}
         />
       </div>
     </div>
