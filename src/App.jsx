@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { useState } from "react";
 import ItemList from "./Components/ItemList";
 import SearchFilter from "./Components/SearchFilter";
+import KabanBoard from "./Components/KabanBoard";
 // delete the Pet component
 
 const App = () => {
@@ -124,6 +125,7 @@ const App = () => {
           handleEdit={handleEdit}
         />
       </div>
+      <KabanBoard />
     </div>
   );
 };
