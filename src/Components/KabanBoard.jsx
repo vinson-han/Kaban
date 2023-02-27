@@ -1,4 +1,12 @@
+import "../Assets/style.css";
+
 import { useState, useEffect } from "react";
+
+
+const
+
+
+
 const KabanBoard = () => {
   const templist = [
     "one",
@@ -12,37 +20,34 @@ const KabanBoard = () => {
     "nine",
   ];
 
-  const [mousePosition, setMousePosition] = useState({});
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+  const DragAndDrop = props => {
+    const handleDragEnter = e => {
+      e.preventDefault();
+      e.stopPropagation();
     };
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+    const handleDragLeave = e => {
+      e.preventDefault();
+      e.stopPropagation();
     };
-  }, []);
-  function dragstart_handler(ev) {
-    // Add the target element's id to the data transfer object
-    ev.dataTransfer.setData("text/plain", ev.target.id);
-  }
-
-  window.addEventListener("DOMContentLoaded", () => {
-    // Get the element by id
-    const element = document.getElementById("p1");
-    // Add the ondragstart event listener
-    element.addEventListener("dragstart", dragstart_handler);
-  });
+    const handleDragOver = e => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+    const handleDrop = e => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
 
   return (
-    <div style={{ border: "1px solid red" }}>
-      <p id="p1" draggable="true">
-        This element is draggable.
-      </p>
+    <div className="container">
+      <div className=".box"
+      onDrop={e => handleDrop(e)}
+      onDragOver={e => handleDragOver(e)}
+      onDragEnter={e => handleDragEnter(e)}
+      onDragLeave={e => handleDragLeave(e)}>
+      </div>
     </div>
+      
   );
 };
 
