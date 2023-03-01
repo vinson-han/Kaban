@@ -2,6 +2,8 @@ import "../Assets/style.css";
 
 import { useState, useEffect } from "react";
 
+//Drag HTML api not supported with Mobile
+
 const KabanBoard = () => {
   const templist = [
     "one",
