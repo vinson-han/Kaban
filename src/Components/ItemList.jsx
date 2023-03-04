@@ -1,8 +1,6 @@
 import { useState } from "react";
-
+import "../Assets/style.css";
 const Item = ({ item, handleDelete, handleClick, handleEdit }) => {
-  let x = item.content;
-
   const [edit, setEdit] = useState(false);
   const editClick = (e) => {
     e.stopPropagation();
@@ -92,6 +90,7 @@ const ItemList = ({
   itemList = itemList.map((e) =>
     e.content.toLowerCase().includes(filter) ? (
       <Item
+        className="box"
         key={e.id}
         item={e}
         handleDelete={handleDelete}

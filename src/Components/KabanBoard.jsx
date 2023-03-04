@@ -4,19 +4,7 @@ import { useState, useEffect } from "react";
 
 //Drag HTML api not supported with Mobile
 
-const KabanBoard = () => {
-  const templist = [
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-    "nine",
-  ];
-
+const Box = ({ item }) => {
   const handleStart = (e) => {
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData(
@@ -30,7 +18,7 @@ const KabanBoard = () => {
 
   const hanldeDropOver = (e) => {
     e.preventDefault();
-    e.dataTransfer.setData("text/plain", e.target.id);
+    // e.dataTransfer.setData("text/plain", e.target.id);
     e.dataTransfer.dropEffect = "move";
   };
   const handleDrop = (e) => {
@@ -48,28 +36,40 @@ const KabanBoard = () => {
   };
 
   return (
-    <div className="container">
-      <div
-        id="A"
-        className="box"
-        draggable={true}
-        onDragStart={(e) => handleStart(e)}
-        onDrop={(e) => handleDrop(e)}
-        onDragOver={(e) => hanldeDropOver(e)}
-      >
-        A
-      </div>
-      <div
-        id="Basd"
-        className="box"
-        draggable={true}
-        onDragStart={(e) => handleStart(e)}
-        onDrop={(e) => handleDrop(e)}
-        onDragOver={(e) => hanldeDropOver(e)}
-      >
-        Vinson
-      </div>
+    <div
+      id={item.id}
+      className="box"
+      draggable={true}
+      onDragStart={(e) => handleStart(e)}
+      onDrop={(e) => handleDrop(e)}
+      onDragOver={(e) => hanldeDropOver(e)}
+    >
+      {item.content}
     </div>
+  );
+};
+
+const Container = ({ children }) => {
+  return <div className="container">{children}</div>;
+};
+
+const KabanBoard = ({ list }) => {
+  const templist = [
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+  ];
+
+  return (
+    <Container>
+      {list.map((e) => (e ? <Box key={e.id} id={e.id} item={e} /> : ""))}
+    </Container>
   );
 };
 

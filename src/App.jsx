@@ -125,7 +125,11 @@ const App = () => {
           handleEdit={handleEdit}
         />
       </div>
-      <KabanBoard />
+      <KabanBoard
+        list={list}
+        handleClick={handleClick}
+        handleDelete={handleDelete}
+      ></KabanBoard>
     </div>
   );
 };
