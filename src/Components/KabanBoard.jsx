@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 
 //Drag HTML api not supported with Mobile
 
+const Item = ({ children }) => {
+  return <div className="box">{children}</div>;
+};
+
 const Box = ({ item }) => {
   const handleStart = (e) => {
     e.dataTransfer.effectAllowed = "move";
@@ -36,7 +40,7 @@ const Box = ({ item }) => {
   };
 
   return (
-    <div
+    <Item
       id={item.id}
       className="box"
       draggable={true}
@@ -45,7 +49,7 @@ const Box = ({ item }) => {
       onDragOver={(e) => hanldeDropOver(e)}
     >
       {item.content}
-    </div>
+    </Item>
   );
 };
 
@@ -54,18 +58,6 @@ const Container = ({ children }) => {
 };
 
 const KabanBoard = ({ list }) => {
-  const templist = [
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-    "nine",
-  ];
-
   return (
     <Container>
       {list.map((e) => (e ? <Box key={e.id} id={e.id} item={e} /> : ""))}

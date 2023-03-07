@@ -5,6 +5,7 @@ import { useState } from "react";
 import ItemList from "./Components/ItemList";
 import SearchFilter from "./Components/SearchFilter";
 import KabanBoard from "./Components/KabanBoard";
+
 // delete the Pet component
 
 const App = () => {
@@ -127,9 +128,12 @@ const App = () => {
       </div>
       <KabanBoard
         list={list}
+        filter={filter}
+        priority={priority}
         handleClick={handleClick}
         handleDelete={handleDelete}
-      ></KabanBoard>
+        handleEdit={handleEdit}
+      />
     </div>
   );
 };
