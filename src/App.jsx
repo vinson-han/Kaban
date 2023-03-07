@@ -18,7 +18,8 @@ const App = () => {
 
   const handleDelete = (event) => {
     event.stopPropagation();
-    setList(list.filter((e) => e.id !== +event.target.value));
+    console.log(event.target.value);
+    // setList(list.filter((e) => e.id !== +event.target.value));
   };
 
   const handleClick = (id) => {
