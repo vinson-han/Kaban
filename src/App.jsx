@@ -107,25 +107,18 @@ const App = () => {
           </p>
         </div>
       </form>
-      <div>
-        <ItemList
+      <div></div>
+      <div className="grid">
+        <KabanBoard
           list={list}
           filter={filter}
           priority={priority}
-          handleDelete={handleDelete}
           handleClick={handleClick}
+          handleDelete={handleDelete}
           handleEdit={handleEdit}
+          handleSwap={handleSwap}
         />
       </div>
-      <KabanBoard
-        list={list}
-        filter={filter}
-        priority={priority}
-        handleClick={handleClick}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
-        handleSwap={handleSwap}
-      />
     </div>
   );
 };
