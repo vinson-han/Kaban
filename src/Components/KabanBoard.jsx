@@ -1,10 +1,25 @@
 import "../Assets/style.css";
 
+import EditForm from "../Components/EditForm";
 import { useState, useEffect } from "react";
 
 //Drag HTML api not supported with Mobile
 
 const Item = ({ item, handleSwap, handleDelete, handleEdit }) => {
+  const [edit, setEdit] = useState(false);
+  const [strike, setStrike] = useState(false);
+
+  const hideWhenVisible = { display: edit ? "none" : "" };
+  const showWhenVisibile = { display: edit ? "" : "none" };
+
+  const handleClick = () => {
+    setStrike(!strike);
+  };
+
+  const editClick = (e) => {
+    e.preventDefault();
+    setEdit(!edit);
+  };
   const handleStart = (e) => {
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData(
@@ -15,7 +30,6 @@ const Item = ({ item, handleSwap, handleDelete, handleEdit }) => {
       })
     );
   };
-
   const handleDropOver = (e) => {
     e.preventDefault();
     // e.dataTransfer.setData("text/plain", e.target.id);
@@ -28,30 +42,35 @@ const Item = ({ item, handleSwap, handleDelete, handleEdit }) => {
 
     // Swap Orgin Item with DropZone Item
     let originItem = document.getElementById(data.id);
-    originItem.id = e.target.id;
-    // originItem.innerHTML = e.target.innerHTML;
-
-    e.target.id = data.id;
-    // e.target.innerHTML = data.innerHTML;
 
     handleSwap(originItem.id, e.target.id);
   };
   return (
-    <div
-      className="box"
-      id={item.id}
-      draggable={true}
-      onDragStart={(e) => handleStart(e)}
-      onDrop={(e) => handleDrop(e)}
-      onDragOver={(e) => handleDropOver(e)}
-    >
-      {item.content}
-      {/* <button id={"edit" + item.id} value={item.id} onClick={handleEdit}>
-        Edit
-      </button>
-      <button id={"delete" + item.id} value={item.id} onClick={handleDelete}>
-        Delete
-      </button> */}
+    <div>
+      <div
+        className="box"
+        style={hideWhenVisible}
+        id={item.id}
+        draggable={true}
+        onDragStart={(e) => handleStart(e)}
+        onDrop={(e) => handleDrop(e)}
+        onDragOver={(e) => handleDropOver(e)}
+      >
+        <li onClick={handleClick}>
+          {strike ? <del>{item.content}</del> : item.content}
+          <button onClick={editClick} value={item.id}>
+            Edit
+          </button>
+        </li>
+      </div>
+      <div style={showWhenVisibile} className="box">
+        <EditForm
+          item={item}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          editClick={editClick}
+        />
+      </div>
     </div>
   );
 };
@@ -60,11 +79,35 @@ const Container = ({ children }) => {
   return <div className="container">{children}</div>;
 };
 
-const KabanBoard = ({ list, handleSwap, handleDelete, handleEdit }) => {
+const KabanBoard = ({
+  list,
+  filter,
+  priority,
+  handleSwap,
+  handleDelete,
+  handleEdit,
+}) => {
+  let itemList = [...list];
+
+  if (priority === "important") {
+    itemList = itemList.filter((e) => e.priority === "important");
+  } else if (priority === "unimportant")
+    itemList = itemList.filter((e) => e.priority === "unimportant");
+
   return (
     <Container>
-      {list.map((e) =>
-        e ? <Item key={e.id} item={e} handleSwap={handleSwap}></Item> : ""
+      {itemList.map((e) =>
+        e.content.toLowerCase().includes(filter) ? (
+          <Item
+            key={e.id}
+            item={e}
+            handleSwap={handleSwap}
+            handleDelete={handleDelete}
+            handleEdit={handleEdit}
+          />
+        ) : (
+          ""
+        )
       )}
     </Container>
   );

@@ -1,5 +1,5 @@
 // rename the file App.jsx
-// delete the React import
+
 import { createRoot } from "react-dom/client";
 import { useState } from "react";
 import ItemList from "./Components/ItemList";
@@ -10,7 +10,7 @@ import KabanBoard from "./Components/KabanBoard";
 
 const App = () => {
   let [list, setList] = useState([
-    { id: 0, content: "Things to Do", isDone: true, priority: "important" },
+    { id: 0, content: "1", isDone: true, priority: "important" },
   ]);
 
   let [filter, setFilter] = useState("");
@@ -18,7 +18,7 @@ const App = () => {
 
   const handleDelete = (event) => {
     event.stopPropagation();
-    // console.log(event.target.value);
+
     setList(list.filter((e) => e.id !== +event.target.value));
   };
 
@@ -68,44 +68,19 @@ const App = () => {
 
     let iPosition = list.indexOf(temp);
     let sPosition = list.indexOf(temp2);
-    [tempList[iPosition], tempList[sPosition]] = [
-      tempList[sPosition],
-      tempList[iPosition],
-    ];
+
+    tempList[iPosition] = temp2;
+    tempList[sPosition] = temp;
 
     setList(tempList);
   };
 
   return (
     <div>
-      <SearchFilter handleFilter={handleFilter} />
-      <label htmlFor="priorty">
-        important
-        <input
-          type="radio"
-          name="priority"
-          value="important"
-          onChange={handlePriority}
-        />
-      </label>
-      <label htmlFor="priorty">
-        unimportant
-        <input
-          type="radio"
-          name="priority"
-          value="unimportant"
-          onChange={handlePriority}
-        />
-      </label>
-      <label htmlFor="priorty">
-        all
-        <input
-          type="radio"
-          name="priority"
-          value="all"
-          onChange={handlePriority}
-        />
-      </label>
+      <SearchFilter
+        handleFilter={handleFilter}
+        handlePriority={handlePriority}
+      />
 
       <h1>Adopt Me!</h1>
 
@@ -133,14 +108,14 @@ const App = () => {
         </div>
       </form>
       <div>
-        {/* <ItemList
+        <ItemList
           list={list}
           filter={filter}
           priority={priority}
           handleDelete={handleDelete}
           handleClick={handleClick}
           handleEdit={handleEdit}
-        /> */}
+        />
       </div>
       <KabanBoard
         list={list}

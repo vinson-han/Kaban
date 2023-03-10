@@ -5,6 +5,7 @@ const EditForm = ({ item, editClick, handleDelete, handleEdit }) => {
     if (e.keyCode === 13) {
       const form = document.getElementById("edit");
       const formData = new FormData(form);
+
       handleEdit({
         id: +formData.get("id"),
         content: formData.get("edit"),
@@ -18,7 +19,7 @@ const EditForm = ({ item, editClick, handleDelete, handleEdit }) => {
       <label htmlFor="edit">
         <input type="hidden" name="id" value={item.id} />
         <input id={item.id} name="edit" defaultValue={item.content} autoFocus />
-        <button onClick={editClick}>hide</button>{" "}
+        <button onClick={editClick}>Hide</button>
         <button onClick={handleDelete} value={item.id}>
           Delete
         </button>
