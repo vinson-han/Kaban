@@ -18,8 +18,8 @@ const App = () => {
 
   const handleDelete = (event) => {
     event.stopPropagation();
-    console.log(event.target.value);
-    // setList(list.filter((e) => e.id !== +event.target.value));
+    // console.log(event.target.value);
+    setList(list.filter((e) => e.id !== +event.target.value));
   };
 
   const handleClick = (id) => {
@@ -59,6 +59,21 @@ const App = () => {
 
   const handlePriority = (e) => {
     setPriority(e.target.value);
+  };
+
+  const handleSwap = (intialPosition, secondPosition) => {
+    let tempList = structuredClone(list);
+    let temp = list.find((e) => e.id === +intialPosition);
+    let temp2 = list.find((e) => e.id === +secondPosition);
+
+    let iPosition = list.indexOf(temp);
+    let sPosition = list.indexOf(temp2);
+    [tempList[iPosition], tempList[sPosition]] = [
+      tempList[sPosition],
+      tempList[iPosition],
+    ];
+
+    setList(tempList);
   };
 
   return (
@@ -118,14 +133,14 @@ const App = () => {
         </div>
       </form>
       <div>
-        <ItemList
+        {/* <ItemList
           list={list}
           filter={filter}
           priority={priority}
           handleDelete={handleDelete}
           handleClick={handleClick}
           handleEdit={handleEdit}
-        />
+        /> */}
       </div>
       <KabanBoard
         list={list}
@@ -134,6 +149,7 @@ const App = () => {
         handleClick={handleClick}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
+        handleSwap={handleSwap}
       />
     </div>
   );

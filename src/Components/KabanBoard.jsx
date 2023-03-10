@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 //Drag HTML api not supported with Mobile
 
-const Item = ({ item, handleDelete, handleEdit }) => {
+const Item = ({ item, handleSwap, handleDelete, handleEdit }) => {
   const handleStart = (e) => {
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData(
@@ -14,7 +14,6 @@ const Item = ({ item, handleDelete, handleEdit }) => {
         innerHTML: e.target.innerHTML,
       })
     );
-    console.log(e);
   };
 
   const handleDropOver = (e) => {
@@ -30,17 +29,16 @@ const Item = ({ item, handleDelete, handleEdit }) => {
     // Swap Orgin Item with DropZone Item
     let originItem = document.getElementById(data.id);
     originItem.id = e.target.id;
-    originItem.innerHTML = e.target.innerHTML;
-
-    document.getElementById(`edit${originItem.id}`);
+    // originItem.innerHTML = e.target.innerHTML;
 
     e.target.id = data.id;
-    e.target.innerHTML = data.innerHTML;
+    // e.target.innerHTML = data.innerHTML;
 
-    document.getElementById(`edit${e.target.id}`);
+    handleSwap(originItem.id, e.target.id);
   };
   return (
     <div
+      className="box"
       id={item.id}
       draggable={true}
       onDragStart={(e) => handleStart(e)}
@@ -48,39 +46,25 @@ const Item = ({ item, handleDelete, handleEdit }) => {
       onDragOver={(e) => handleDropOver(e)}
     >
       {item.content}
-      <button id={"edit" + item.id} value={item.id} onClick={handleEdit}>
+      {/* <button id={"edit" + item.id} value={item.id} onClick={handleEdit}>
         Edit
       </button>
       <button id={"delete" + item.id} value={item.id} onClick={handleDelete}>
         Delete
-      </button>
+      </button> */}
     </div>
   );
-};
-
-const Box = ({ children }) => {
-  return <div className="box">{children}</div>;
 };
 
 const Container = ({ children }) => {
   return <div className="container">{children}</div>;
 };
 
-const KabanBoard = ({ list, handleDelete, handleEdit }) => {
+const KabanBoard = ({ list, handleSwap, handleDelete, handleEdit }) => {
   return (
     <Container>
       {list.map((e) =>
-        e ? (
-          <Box key={e.id} id={e.id}>
-            <Item
-              item={e}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
-            />
-          </Box>
-        ) : (
-          ""
-        )
+        e ? <Item key={e.id} item={e} handleSwap={handleSwap}></Item> : ""
       )}
     </Container>
   );
