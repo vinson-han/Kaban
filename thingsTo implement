@@ -2,9 +2,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/File_dra
 
 https://web.dev/drag-and-drop/
 
-Implent List with Form
-
-Create new component, When drag and drop located location of List.
-manipulate stae of list
+Create seperate state for finish, and completed
+Either Cotainer in order to move to state
 
 Implment A-to Z after finsihing
