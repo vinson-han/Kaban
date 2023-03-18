@@ -4,26 +4,26 @@ const KabanList = ({ list, handleDrop, name }) => {
   return (
     <div
       className="kaban_list"
-      id={name}
+      status={name}
       draggable={false}
       onDrop={(e) => handleDrop(e)}
       onDragOver={(e) => handleDropOver(e)}
     >
       <ul>
-        {list
-          ? list.map((e) => (
-              <li
-                className="box"
-                key={e.id}
-                id={e.id}
-                status={e.status}
-                draggable
-                onDragStart={(e) => handleDragStart(e)}
-              >
-                {e.status} {e.content}
-              </li>
-            ))
-          : ""}
+        {list &&
+          list.map((e) => (
+            <div
+              className="box"
+              key={e.id}
+              id={e.id ?? index}
+              status={name}
+              draggable
+              onDragStart={(e) => handleDragStart(e)}
+              onDrop={(e) => handleDrop(e)}
+            >
+              {e.status} {e.content}
+            </div>
+          ))}
       </ul>
     </div>
   );
@@ -61,54 +61,49 @@ const Board = () => {
     e.stopPropagation();
 
     const data = JSON.parse(e.dataTransfer.getData("text/plain"));
-    console.log(data);
-    // let firstItem;
-    // let firstStatus = data.status;
-    // let secondItem;
-    // let secondStatus = e.target.getAttribute("status");
 
-    // if (firstStatus !== secondItem) {
-    //   switch (firstStatus) {
-    //     case "initial":
-    //       firstItem = initial.find((e) => e.id === +data.id);
-    //       setInitial(initial.filter((e) => e !== firstItem));
-    //       break;
-    //     case "pending":
-    //       firstItem = pending.find((e) => e.id === +data.id);
-    //       setPending(pending.filter((e) => e !== firstItem));
-    //       break;
-    //     case "completed":
-    //       firstItem = completed.find((e) => e.id === +data.id);
-    //       setCompleted(comple.filter((e) => e !== firstItem));
-    //       break;
-    //     default:
-    //       break;
-    //   }
+    let firstItem;
+    let firstStatus = data.status;
+    let secondItem;
+    let secondStatus = e.target.getAttribute("status");
 
-    //   console.log(e.target.parentElement, "parent");
-
-    //   console.log(firstItem);
-    // }
-
-    // 	switch (secondSatus) {
-    // 		case "initial":
-    // 			secondItem = initial.find((e) => e.id === +data.id);
-    // 			break;
-    // 		case "pending":
-    // 			secondItem = pending.find((e) => e.id === +data.id);
-    // 			break;
-    // 		case "completed":
-    // 			secondItem = completed.find((e) => e.id === +data.id);
-    // 			break;
-    // 		default:
-    // 			break;
-    // 	}
-    // }
+    console.log(firstStatus === null, secondStatus === null);
+    if (firstStatus !== secondStatus && secondStatus !== null) {
+      switch (firstStatus) {
+        case "initial":
+          firstItem = initial.find((e) => e.id === +data.id);
+          setInitial(initial.filter((e) => e !== firstItem));
+          break;
+        case "pending":
+          firstItem = pending.find((e) => e.id === +data.id);
+          setPending(pending.filter((e) => e !== firstItem));
+          break;
+        case "completed":
+          firstItem = completed.find((e) => e.id === +data.id);
+          setCompleted(completed.filter((e) => e !== firstItem));
+          break;
+        default:
+          break;
+      }
+      switch (secondStatus) {
+        case "initial":
+          setInitial([...initial, firstItem]);
+          break;
+        case "pending":
+          setPending([...pending, firstItem]);
+          break;
+        case "completed":
+          setCompleted([...completed, firstItem]);
+          break;
+        default:
+          break;
+      }
+    }
   };
 
   return (
     <div className="grid">
-      <KabanList list={initial} handleDrop={handleDrop} name="intital" />
+      <KabanList list={initial} handleDrop={handleDrop} name="initial" />
       <KabanList list={pending} handleDrop={handleDrop} name="pending" />
       <KabanList list={completed} handleDrop={handleDrop} name="completed" />
     </div>
