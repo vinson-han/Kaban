@@ -37,16 +37,20 @@ const Item = ({ item, handleSwap, handleDelete, handleEdit }) => {
   };
   const handleDrop = (e) => {
     e.stopPropagation();
-
     const data = JSON.parse(e.dataTransfer.getData("text/plain"));
 
     // Swap Orgin Item with DropZone Item
     let originItem = document.getElementById(data.id);
 
-    handleSwap(originItem.id, e.target.id);
+    handleSwap(
+      originItem.parentElement.id,
+      e.target.parentElement.parentElement.id,
+      originItem.id,
+      e.target.id
+    );
   };
   return (
-    <div>
+    <>
       <div
         className="box"
         style={hideWhenVisible}
@@ -71,16 +75,22 @@ const Item = ({ item, handleSwap, handleDelete, handleEdit }) => {
           editClick={editClick}
         />
       </div>
+    </>
+  );
+};
+
+const Container = ({ children, id }) => {
+  return (
+    <div id={id} className="container" style={{ border: "solid 1px red" }}>
+      {children}
     </div>
   );
 };
 
-const Container = ({ children }) => {
-  return <div className="container">{children}</div>;
-};
-
 const KabanBoard = ({
   list,
+  pendingList,
+  completeList,
   filter,
   priority,
   handleSwap,
@@ -95,21 +105,39 @@ const KabanBoard = ({
     itemList = itemList.filter((e) => e.priority === "unimportant");
 
   return (
-    <Container>
-      {itemList.map((e) =>
-        e.content.toLowerCase().includes(filter) ? (
-          <Item
-            key={e.id}
-            item={e}
-            handleSwap={handleSwap}
-            handleDelete={handleDelete}
-            handleEdit={handleEdit}
-          />
-        ) : (
-          ""
-        )
-      )}
-    </Container>
+    <>
+      <Container id="initial">
+        {itemList.map((e) =>
+          e.content.toLowerCase().includes(filter) ? (
+            <Item
+              key={e.id}
+              item={e}
+              handleSwap={handleSwap}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+            />
+          ) : (
+            ""
+          )
+        )}
+      </Container>
+
+      <Container id="pending">
+        {pendingList.map((e) =>
+          e.content.toLowerCase().includes(filter) ? (
+            <Item
+              key={e.id}
+              item={e}
+              handleSwap={handleSwap}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+            />
+          ) : (
+            ""
+          )
+        )}
+      </Container>
+    </>
   );
 };
 

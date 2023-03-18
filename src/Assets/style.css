@@ -5,15 +5,19 @@
 }
 
 .box {
-  border: 3px solid #666;
-  background-color: #ddd;
-  border-radius: 0.5em;
-  padding: 10px;
-
+  border: solid 1px blue;
   list-style: none;
 }
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+}
+
+.kaban_list {
+  border: 1px solid red;
+}
+
+li {
+  margin-bottom: 0.5rem;
 }

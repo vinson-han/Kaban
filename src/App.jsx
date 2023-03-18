@@ -5,13 +5,29 @@ import { useState } from "react";
 import ItemList from "./Components/ItemList";
 import SearchFilter from "./Components/SearchFilter";
 import KabanBoard from "./Components/KabanBoard";
-
+import Board from "./Components/Board";
 // delete the Pet component
 
 const App = () => {
-  let [list, setList] = useState([
-    { id: 0, content: "1", isDone: true, priority: "important" },
+  const [list, setList] = useState([
+    {
+      id: 0,
+      list: "initial",
+      content: "initial",
+      isDone: true,
+      priority: "important",
+    },
   ]);
+  const [pendingList, setPendingList] = useState([
+    {
+      id: 2,
+      list: "pending",
+      content: "pending",
+      isDone: true,
+      priority: "important",
+    },
+  ]);
+  const [completeList, setCompleteList] = useState([]);
 
   let [filter, setFilter] = useState("");
   let [priority, setPriority] = useState("all");
@@ -50,6 +66,7 @@ const App = () => {
 
     let object = {
       id: Math.floor(Math.random() * 100000),
+      list: "initial",
       content: formData.get("task") ?? "",
       isDone: false,
       priority: formData.get("myRadio"),
@@ -61,18 +78,26 @@ const App = () => {
     setPriority(e.target.value);
   };
 
-  const handleSwap = (intialPosition, secondPosition) => {
+  const handleSwap = (x, y, intialPosition, secondPosition) => {
     let tempList = structuredClone(list);
+
     let temp = list.find((e) => e.id === +intialPosition);
     let temp2 = list.find((e) => e.id === +secondPosition);
 
     let iPosition = list.indexOf(temp);
     let sPosition = list.indexOf(temp2);
 
-    tempList[iPosition] = temp2;
-    tempList[sPosition] = temp;
-
-    setList(tempList);
+    if (x === y) {
+      tempList[iPosition] = temp2;
+      tempList[sPosition] = temp;
+      if (x === "initial") {
+        setList(tempList);
+      } else if (x === "pending") {
+        setPendingList(tempList);
+      } else if (x === "completed") {
+        setCompleteList(tempList);
+      }
+    }
   };
 
   return (
@@ -108,9 +133,11 @@ const App = () => {
         </div>
       </form>
       <div></div>
-      <div className="grid">
+      {/* <div className="grid">
         <KabanBoard
           list={list}
+          pendingList={pendingList}
+          completeList={completeList}
           filter={filter}
           priority={priority}
           handleClick={handleClick}
@@ -118,7 +145,8 @@ const App = () => {
           handleEdit={handleEdit}
           handleSwap={handleSwap}
         />
-      </div>
+      </div> */}
+      <Board />
     </div>
   );
 };
