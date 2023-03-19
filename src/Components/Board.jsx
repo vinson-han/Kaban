@@ -12,17 +12,17 @@ const KabanList = ({ list, handleDrop, name }) => {
       <ul>
         {list &&
           list.map((e) => (
-            <div
+            <li
               className="box"
               key={e.id}
-              id={e.id ?? index}
+              id={e.id}
               status={name}
               draggable
               onDragStart={(e) => handleDragStart(e)}
               onDrop={(e) => handleDrop(e)}
             >
               {e.status} {e.content}
-            </div>
+            </li>
           ))}
       </ul>
     </div>
@@ -55,19 +55,26 @@ const Board = () => {
       priority: "important",
     },
   ]);
-  const [completed, setCompleted] = useState([]);
+  const [completed, setCompleted] = useState([
+    {
+      id: 4,
+      status: "completed",
+      content: "Third Block # 1",
+      isDone: true,
+      priority: "important",
+    },
+  ]);
 
   const handleDrop = (e) => {
     e.stopPropagation();
 
     const data = JSON.parse(e.dataTransfer.getData("text/plain"));
 
-    let firstItem;
     let firstStatus = data.status;
-    let secondItem;
     let secondStatus = e.target.getAttribute("status");
+    let firstItem;
+    let secondItem;
 
-    console.log(firstStatus === null, secondStatus === null);
     if (firstStatus !== secondStatus && secondStatus !== null) {
       switch (firstStatus) {
         case "initial":
@@ -94,6 +101,20 @@ const Board = () => {
           break;
         case "completed":
           setCompleted([...completed, firstItem]);
+          break;
+        default:
+          break;
+      }
+    } else if (firstItem === secondItem && secondItem !== null) {
+      switch (firstStatus) {
+        case "initial":
+          setInitial(swap(initial, data.id, e.target.id));
+          break;
+        case "pending":
+          setPending(swap(pending, data.id, e.target.id));
+          break;
+        case "completed":
+          setPending(swap(completed, data.id, e.target.id));
           break;
         default:
           break;
@@ -126,4 +147,17 @@ function handleDragStart(e) {
 function handleDropOver(e) {
   e.preventDefault();
   e.dataTransfer.dropEffect = "move";
+}
+
+function swap(list, firstId, secondId) {
+  let tempList = structuredClone(list);
+  let temp = tempList.find((i) => i.id === +firstId);
+  let temp2 = tempList.find((i) => i.id === +secondId);
+  let iPosition = tempList.indexOf(temp);
+  let sPosition = tempList.indexOf(temp2);
+
+  tempList[iPosition] = temp2;
+  tempList[sPosition] = temp;
+
+  return tempList;
 }
