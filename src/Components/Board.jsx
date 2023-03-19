@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const KabanList = ({ list, handleDrop, name }) => {
   return (
@@ -29,23 +29,13 @@ const KabanList = ({ list, handleDrop, name }) => {
   );
 };
 
-const Board = () => {
-  const [initial, setInitial] = useState([
-    {
-      id: 0,
-      status: "initial",
-      content: "First Block # 1",
-      isDone: true,
-      priority: "important",
-    },
-    {
-      id: 2,
-      status: "initial",
-      content: "First Block # 2",
-      isDone: true,
-      priority: "important",
-    },
-  ]);
+const Board = ({ list }) => {
+  useEffect(() => {
+    list.content && setInitial([...initial, list]);
+    console.log(list);
+  }, [list]);
+
+  const [initial, setInitial] = useState([]);
   const [pending, setPending] = useState([
     {
       id: 3,
@@ -75,7 +65,7 @@ const Board = () => {
     let firstItem;
     let secondItem;
 
-    if (firstStatus !== secondStatus && secondStatus !== null) {
+    if (firstStatus !== secondStatus && secondStatus) {
       switch (firstStatus) {
         case "initial":
           firstItem = initial.find((e) => e.id === +data.id);
@@ -105,7 +95,7 @@ const Board = () => {
         default:
           break;
       }
-    } else if (firstItem === secondItem && secondItem !== null) {
+    } else if (firstItem === secondItem && secondStatus) {
       switch (firstStatus) {
         case "initial":
           setInitial(swap(initial, data.id, e.target.id));
@@ -114,7 +104,7 @@ const Board = () => {
           setPending(swap(pending, data.id, e.target.id));
           break;
         case "completed":
-          setPending(swap(completed, data.id, e.target.id));
+          setCompleted(swap(completed, data.id, e.target.id));
           break;
         default:
           break;
@@ -134,7 +124,6 @@ const Board = () => {
 export default Board;
 
 function handleDragStart(e) {
-  e.dataTransfer.effectAllowed = "move";
   e.dataTransfer.setData(
     "text/plain",
     JSON.stringify({

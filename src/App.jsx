@@ -6,29 +6,10 @@ import ItemList from "./Components/ItemList";
 import SearchFilter from "./Components/SearchFilter";
 import KabanBoard from "./Components/KabanBoard";
 import Board from "./Components/Board";
-// delete the Pet component
+import CreateItem from "./Components/CreateItem";
 
 const App = () => {
-  const [list, setList] = useState([
-    {
-      id: 0,
-      list: "initial",
-      content: "initial",
-      isDone: true,
-      priority: "important",
-    },
-  ]);
-  const [pendingList, setPendingList] = useState([
-    {
-      id: 2,
-      list: "pending",
-      content: "pending",
-      isDone: true,
-      priority: "important",
-    },
-  ]);
-  const [completeList, setCompleteList] = useState([]);
-
+  let [list, setList] = useState({});
   let [filter, setFilter] = useState("");
   let [priority, setPriority] = useState("all");
 
@@ -61,7 +42,6 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const formData = new FormData(event.target);
 
     let object = {
@@ -71,68 +51,24 @@ const App = () => {
       isDone: false,
       priority: formData.get("myRadio"),
     };
-    setList([...list, object]);
+
+    object.content.length && setList(object);
+    event.target.reset();
   };
 
   const handlePriority = (e) => {
     setPriority(e.target.value);
   };
 
-  const handleSwap = (x, y, intialPosition, secondPosition) => {
-    let tempList = structuredClone(list);
-
-    let temp = list.find((e) => e.id === +intialPosition);
-    let temp2 = list.find((e) => e.id === +secondPosition);
-
-    let iPosition = list.indexOf(temp);
-    let sPosition = list.indexOf(temp2);
-
-    if (x === y) {
-      tempList[iPosition] = temp2;
-      tempList[sPosition] = temp;
-      if (x === "initial") {
-        setList(tempList);
-      } else if (x === "pending") {
-        setPendingList(tempList);
-      } else if (x === "completed") {
-        setCompleteList(tempList);
-      }
-    }
-  };
-
   return (
     <div>
-      <SearchFilter
+      {/* <SearchFilter
         handleFilter={handleFilter}
         handlePriority={handlePriority}
-      />
+      /> */}
 
       <h1>Adopt Me!</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="task">
-            <input id="task" name="task" placeholder="Write your to do." />
-          </label>
-          <button> Submit</button>
-          <p>
-            <label form="radio">
-              important
-              <input
-                type="radio"
-                name="myRadio"
-                value="important"
-                defaultChecked={true}
-              />
-            </label>
-            <label form="radio">
-              unimportant
-              <input type="radio" name="myRadio" value="unimportant" />
-            </label>
-          </p>
-        </div>
-      </form>
-      <div></div>
       {/* <div className="grid">
         <KabanBoard
           list={list}
@@ -146,7 +82,8 @@ const App = () => {
           handleSwap={handleSwap}
         />
       </div> */}
-      <Board />
+      <CreateItem handleSubmit={handleSubmit} />
+      <Board list={list} />
     </div>
   );
 };
