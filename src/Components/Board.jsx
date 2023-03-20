@@ -21,7 +21,7 @@ const KabanList = ({ list, handleDrop, name }) => {
               onDragStart={(e) => handleDragStart(e)}
               onDrop={(e) => handleDrop(e)}
             >
-              {e.status} {e.content}
+              {e.content}
             </li>
           ))}
       </ul>
@@ -29,10 +29,12 @@ const KabanList = ({ list, handleDrop, name }) => {
   );
 };
 
-const Board = ({ list }) => {
+const Board = ({ list, filter, priority }) => {
   useEffect(() => {
+    // } else if (priority === "unimportant")
+    //   itemList = itemList.filter((e) => e.priority === "unimportant");
+
     list.content && setInitial([...initial, list]);
-    console.log(list);
   }, [list]);
 
   const [initial, setInitial] = useState([]);
@@ -112,11 +114,38 @@ const Board = ({ list }) => {
     }
   };
 
+  const filterList = (list, filter, priority) => {
+    // Seperated filter for readablity
+    let x =
+      filter.length > 0
+        ? list.filter((e) => e.content.toLowerCase().includes(filter))
+        : list;
+
+    if (priority === "important") {
+      x = x.filter((e) => e.priority === "important");
+    } else if (priority === "unimportant")
+      x = x.filter((e) => e.priority === "unimportant");
+
+    return x;
+  };
+
   return (
     <div className="grid">
-      <KabanList list={initial} handleDrop={handleDrop} name="initial" />
-      <KabanList list={pending} handleDrop={handleDrop} name="pending" />
-      <KabanList list={completed} handleDrop={handleDrop} name="completed" />
+      <KabanList
+        list={filterList(initial, filter, priority)}
+        handleDrop={handleDrop}
+        name="initial"
+      />
+      <KabanList
+        list={filterList(pending, filter, priority)}
+        handleDrop={handleDrop}
+        name="pending"
+      />
+      <KabanList
+        list={filterList(completed, filter, priority)}
+        handleDrop={handleDrop}
+        name="completed"
+      />
     </div>
   );
 };

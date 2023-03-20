@@ -27,7 +27,7 @@ const App = () => {
   };
 
   const handleFilter = (event) => {
-    setFilter(event.target.value);
+    setFilter(event.target.value.toLowerCase());
   };
 
   const handleEdit = (object) => {
@@ -62,12 +62,12 @@ const App = () => {
 
   return (
     <div>
-      {/* <SearchFilter
+      <SearchFilter
         handleFilter={handleFilter}
         handlePriority={handlePriority}
-      /> */}
+      />
 
-      <h1>Adopt Me!</h1>
+      <h1>KABAN BOARD!</h1>
 
       {/* <div className="grid">
         <KabanBoard
@@ -83,7 +83,7 @@ const App = () => {
         />
       </div> */}
       <CreateItem handleSubmit={handleSubmit} />
-      <Board list={list} />
+      <Board list={list} filter={filter} priority={priority} />
     </div>
   );
 };
