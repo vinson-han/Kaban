@@ -33,6 +33,7 @@ body {
 
 .kaban_list {
   border: 1px solid red;
+  text-align: center;
 }
 
 ul {

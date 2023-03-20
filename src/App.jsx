@@ -69,19 +69,6 @@ const App = () => {
 
       <h1>KABAN BOARD!</h1>
 
-      {/* <div className="grid">
-        <KabanBoard
-          list={list}
-          pendingList={pendingList}
-          completeList={completeList}
-          filter={filter}
-          priority={priority}
-          handleClick={handleClick}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-          handleSwap={handleSwap}
-        />
-      </div> */}
       <CreateItem handleSubmit={handleSubmit} />
       <Board list={list} filter={filter} priority={priority} />
     </div>

@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 
-const KabanList = ({ list, handleDrop, name }) => {
+const KabanList = ({ name, list, handleDrop, handleDelete }) => {
+  const [strike, setStrike] = useState(false);
+
+  const handleClick = () => {
+    setStrike(!strike);
+  };
+
   return (
     <div
       className="kaban_list"
@@ -13,6 +19,7 @@ const KabanList = ({ list, handleDrop, name }) => {
         {list &&
           list.map((e) => (
             <li
+              onClick={() => handleClick()}
               className="box"
               key={e.id}
               id={e.id}
@@ -22,6 +29,9 @@ const KabanList = ({ list, handleDrop, name }) => {
               onDrop={(e) => handleDrop(e)}
             >
               {e.content}
+              <button onClick={(i) => handleDelete(i, name, e.id)}>
+                Delete
+              </button>
             </li>
           ))}
       </ul>
@@ -114,6 +124,23 @@ const Board = ({ list, filter, priority }) => {
     }
   };
 
+  const handleDelete = (e, name, id) => {
+    e.stopPropagation();
+    switch (name) {
+      case "initial":
+        setInitial(initial.filter((e) => e.id !== +id));
+        break;
+      case "pending":
+        setPending(pending.filter((e) => e.id !== +id));
+        break;
+      case "completed":
+        setCompleted(completed.filter((e) => e.id !== +id));
+        break;
+      default:
+        break;
+    }
+  };
+
   const filterList = (list, filter, priority) => {
     // Seperated filter for readablity
     let x =
@@ -135,16 +162,19 @@ const Board = ({ list, filter, priority }) => {
         list={filterList(initial, filter, priority)}
         handleDrop={handleDrop}
         name="initial"
+        handleDelete={handleDelete}
       />
       <KabanList
+        name="pending"
         list={filterList(pending, filter, priority)}
         handleDrop={handleDrop}
-        name="pending"
+        handleDelete={handleDelete}
       />
       <KabanList
         list={filterList(completed, filter, priority)}
         handleDrop={handleDrop}
         name="completed"
+        handleDelete={handleDelete}
       />
     </div>
   );
