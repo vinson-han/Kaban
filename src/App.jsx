@@ -13,31 +13,8 @@ const App = () => {
   let [filter, setFilter] = useState("");
   let [priority, setPriority] = useState("all");
 
-  const handleDelete = (event) => {
-    event.stopPropagation();
-
-    setList(list.filter((e) => e.id !== +event.target.value));
-  };
-
-  const handleClick = (id) => {
-    const itemToChange = list.find((e) => e.id === id);
-
-    const changedItem = { ...itemToChange, isDone: !itemToChange.isDone };
-    setList(list.map((e) => (e.id !== id ? e : changedItem)));
-  };
-
   const handleFilter = (event) => {
     setFilter(event.target.value.toLowerCase());
-  };
-
-  const handleEdit = (object) => {
-    let contentToChange = list.find((e) => e.id === object.id);
-    let changedContent = {
-      ...contentToChange,
-      content: object.content,
-      priority: object.priority,
-    };
-    setList(list.map((e) => (e.id !== object.id ? e : changedContent)));
   };
 
   const handleSubmit = (event) => {

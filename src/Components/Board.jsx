@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-
-const KabanList = ({ name, list, handleDrop, handleDelete }) => {
+import EditForm from "./EditForm";
+const KabanList = ({ name, list, handleDrop, handleDelete, handleEdit }) => {
   const [strike, setStrike] = useState(false);
 
   const handleClick = () => {
@@ -29,9 +29,13 @@ const KabanList = ({ name, list, handleDrop, handleDelete }) => {
               onDrop={(e) => handleDrop(e)}
             >
               {e.content}
-              <button onClick={(i) => handleDelete(i, name, e.id)}>
-                Delete
-              </button>
+              <EditForm
+                item={e}
+                name={name}
+                // handleEdit={(i) => handleEdit(name)}
+                handleDelete={handleDelete}
+                handleEdit={handleEdit}
+              />
             </li>
           ))}
       </ul>
@@ -140,6 +144,48 @@ const Board = ({ list, filter, priority }) => {
         break;
     }
   };
+  const handleEdit = (object, name) => {
+    let contentToChange;
+
+    switch (name) {
+      case "initial":
+        contentToChange = initial.find((e) => e.id === object.id);
+        break;
+      case "pending":
+        contentToChange = pending.find((e) => e.id === object.id);
+        break;
+      case "completed":
+        contentToChange = completed.find((e) => e.id === object.id);
+        break;
+      default:
+        break;
+    }
+    let changedContent = {
+      ...contentToChange,
+      content: object.content,
+      priority: object.priority,
+    };
+
+    switch (name) {
+      case "initial":
+        setInitial(
+          initial.map((e) => (e.id !== object.id ? e : changedContent))
+        );
+        break;
+      case "pending":
+        setPending(
+          pending.map((e) => (e.id !== object.id ? e : changedContent))
+        );
+        break;
+      case "completed":
+        setCompleted(
+          completed.map((e) => (e.id !== object.id ? e : changedContent))
+        );
+        break;
+      default:
+        break;
+    }
+  };
 
   const filterList = (list, filter, priority) => {
     // Seperated filter for readablity
@@ -169,6 +215,7 @@ const Board = ({ list, filter, priority }) => {
         list={filterList(pending, filter, priority)}
         handleDrop={handleDrop}
         handleDelete={handleDelete}
+        handleEdit={handleEdit}
       />
       <KabanList
         list={filterList(completed, filter, priority)}
