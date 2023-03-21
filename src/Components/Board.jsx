@@ -166,6 +166,8 @@ const Board = ({ list, filter, priority }) => {
       priority: object.priority,
     };
 
+    console.log("here is the name", object);
+
     switch (name) {
       case "initial":
         setInitial(
@@ -209,6 +211,7 @@ const Board = ({ list, filter, priority }) => {
         handleDrop={handleDrop}
         name="initial"
         handleDelete={handleDelete}
+        handleEdit={handleEdit}
       />
       <KabanList
         name="pending"
@@ -222,6 +225,7 @@ const Board = ({ list, filter, priority }) => {
         handleDrop={handleDrop}
         name="completed"
         handleDelete={handleDelete}
+        handleEdit={handleEdit}
       />
     </div>
   );

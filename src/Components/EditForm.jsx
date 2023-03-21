@@ -13,7 +13,9 @@ const EditForm = ({ name, item, handleDelete, handleEdit }) => {
   const handlePress = (e) => {
     if (e.keyCode === 13) {
       e.preventDefault();
-      const form = document.getElementById("edit");
+      e.stopPropagation();
+
+      const form = document.getElementById(`form ${item.id}`);
       const formData = new FormData(form);
 
       handleEdit(
@@ -34,7 +36,7 @@ const EditForm = ({ name, item, handleDelete, handleEdit }) => {
         <button onClick={handleClick}>Edit</button>
       </div>
       <div style={showWhenVisibile}>
-        <form id="edit" onKeyDown={handlePress}>
+        <form id={`form ${item.id}`} onKeyDown={handlePress}>
           <label htmlFor="edit">
             <input type="hidden" name="id" value={item.id} />
             <input
