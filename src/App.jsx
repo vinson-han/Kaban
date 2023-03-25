@@ -37,18 +37,21 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1 className="underline">KABAN BOARD!</h1>
-      <CreateItem handleSubmit={handleSubmit} />
-
-      <div>
+    <div className="flex h-screen flex-col flex-wrap justify-start bg-gray-700 text-center align-middle text-white">
+      <section className="my-10">
+        <h1 className="text-balck mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+          Kaban Board
+        </h1>
+        <CreateItem handleSubmit={handleSubmit} />
+      </section>
+      <secion className="p-200  border-4 p-20">
         <SearchFilter
-          style
           handleFilter={handleFilter}
           handlePriority={handlePriority}
         />
-      </div>
-      <Board list={list} filter={filter} priority={priority} />
+
+        <Board list={list} filter={filter} priority={priority} />
+      </secion>
     </div>
   );
 };

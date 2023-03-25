@@ -9,18 +9,21 @@ const KabanList = ({ name, list, handleDrop, handleDelete, handleEdit }) => {
 
   return (
     <div
-      className="kaban_list"
+      className="border-4 border-lime-300 p-1"
       status={name}
       draggable={false}
       onDrop={(e) => handleDrop(e)}
       onDragOver={(e) => handleDropOver(e)}
     >
+      <h2 draggable={false} className="text-lg uppercase ">
+        {name}
+      </h2>
       <ul>
         {list &&
           list.map((e) => (
             <li
               onClick={() => handleClick()}
-              className="box"
+              className="border-4 border-green-900 "
               key={e.id}
               id={e.id}
               status={name}
@@ -74,6 +77,7 @@ const Board = ({ list, filter, priority }) => {
   const handleDrop = (e) => {
     e.stopPropagation();
 
+    console.log(e.event);
     const data = JSON.parse(e.dataTransfer.getData("text/plain"));
 
     let firstStatus = data.status;
@@ -205,7 +209,7 @@ const Board = ({ list, filter, priority }) => {
   };
 
   return (
-    <div className="grid">
+    <div className="grid grid-cols-3 gap-4">
       <KabanList
         list={filterList(initial, filter, priority)}
         handleDrop={handleDrop}
