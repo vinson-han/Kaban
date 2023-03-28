@@ -1,11 +1,11 @@
 const CreateItem = ({ handleSubmit }) => {
   return (
-    <form className="mx-auto mt-10 max-w-md gap-x-4 " onSubmit={handleSubmit}>
+    <form className="mx-auto mt-20 max-w-md gap-x-4 " onSubmit={handleSubmit}>
       <div className="mb-2 flex flex-col justify-center gap-2">
-        <h2 className="text-lg font-bold text-gray-200"> Add Item</h2>
-        <div>
-          <label className="mr-4" form="radio">
-            important
+        <h2 className="text-4xl font-bold text-gray-200"> Add Item</h2>
+        <div className="text-2xl">
+          <label className="mr-4 " form="radio">
+            important{" "}
             <input
               type="radio"
               name="myRadio"
@@ -14,7 +14,7 @@ const CreateItem = ({ handleSubmit }) => {
             />
           </label>
           <label form="radio">
-            unimportant
+            unimportant{" "}
             <input type="radio" name="myRadio" value="unimportant" />
           </label>
         </div>
@@ -24,7 +24,7 @@ const CreateItem = ({ handleSubmit }) => {
             name="task"
             placeholder="Write your to do."
             required
-            className="mr-2 min-w-0 rounded-md border-0 px-10 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="mt-2 mr-2 min-w-0 rounded-md border-0 px-20 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
           <button
             type="submit"
