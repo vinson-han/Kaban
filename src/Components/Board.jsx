@@ -9,7 +9,7 @@ const KabanList = ({ name, list, handleDrop, handleDelete, handleEdit }) => {
 
   return (
     <div
-      className="border-4 border-lime-300 p-1"
+      className="border-white-300 border-4 p-1"
       status={name}
       draggable={false}
       onDrop={(e) => handleDrop(e)}
@@ -23,7 +23,7 @@ const KabanList = ({ name, list, handleDrop, handleDelete, handleEdit }) => {
           list.map((e) => (
             <li
               onClick={() => handleClick()}
-              className="border-4 border-green-900 "
+              className="border-2 bg-slate-500"
               key={e.id}
               id={e.id}
               status={name}
@@ -59,7 +59,7 @@ const Board = ({ list, filter, priority }) => {
     {
       id: 3,
       status: "pending",
-      content: "Second Block # 1",
+      content: "Hit Enter",
       isDone: true,
       priority: "important",
     },

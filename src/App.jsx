@@ -45,7 +45,7 @@ const App = () => {
           </h1>
           <CreateItem handleSubmit={handleSubmit} />
         </section>
-        <secion className="p-200  border-4 p-20">
+        <secion className="border-4 border-transparent p-20">
           <SearchFilter
             handleFilter={handleFilter}
             handlePriority={handlePriority}
