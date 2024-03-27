@@ -48,8 +48,6 @@ const KabanList = ({ name, list, handleDrop, handleDelete, handleEdit }) => {
 
 const Board = ({ list, filter, priority }) => {
   useEffect(() => {
-    // } else if (priority === "unimportant")
-    //   itemList = itemList.filter((e) => e.priority === "unimportant");
 
     list.content && setInitial([...initial, list]);
   }, [list]);
