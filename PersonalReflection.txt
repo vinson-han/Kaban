@@ -1,4 +1,2 @@
 #only mututate data explictly
 #make sure to know what data attriubte are when passed
-#Can change by value than pass items through prop without changing state
-so you can stamp without really Change state
